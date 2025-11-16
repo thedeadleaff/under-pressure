@@ -1,0 +1,6 @@
+App,Participant,Condition,Session,Block,Keystrokes,Characters,Time_(s),MSD,Speed_(wpm),Error_rate_(%),KSPC
+TypingTestExperiment,1,C01,S01,B05,28,28,2.999,4,112.03734578192731,12.5,1.0
+TypingTestExperiment,1,C01,S01,B05,25,25,2.257,0,132.9198050509526,0.0,1.0
+TypingTestExperiment,1,C01,S01,B05,33,29,3.342,0,104.12926391382405,0.0,1.1379310344827587
+TypingTestExperiment,1,C01,S01,B05,26,26,2.257,0,138.2365972529907,0.0,1.0
+TypingTestExperiment,1,C01,S01,B05,26,26,2.536,0,123.02839116719244,0.0,1.0
