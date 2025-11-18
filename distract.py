@@ -152,9 +152,9 @@ def run_dbd(participant_id, task_index):
     }
 
 # Right now, its all on console but we can link it to the GUI
-def main():
+def run_tasks(id, end_time):
     # Participant ID (1-12 or something)
-    participant_id = input("Participant ID: ").strip()
+    participant_id = id
     if not participant_id:
         print("No ID, aborting.")
         return
@@ -179,43 +179,43 @@ def main():
     # Auto-complete counter
     autocomplete_total = 0
 
-    while True:
+    while time.time() < end_time:
         t = random.choice(tasks)
 
         # Console command version, can attach to GUI properly
         print(f"Trial {task_num}: {t}")
-        choice = input("Press ENTER to do it, type 'a' to auto-complete/skip or type 'q' to quit: ").strip().lower()
+        # choice = input("Press ENTER to do it, type 'a' to auto-complete/skip or type 'q' to quit: ").strip().lower()
 
         # Right now, its on a break BUT we can create a timer for 15 mins to force break
-        if choice == "q":
-                print("Stopping experiment.")
-                break
+        # if choice == "q":
+        #         print("Stopping experiment.")
+        #         break
 
         auto_completed = False
         autocomplete_count = 0
 
-        if choice == "a":
-            # Right now, I have it set to ask for auto-complete at the start of task
-            auto_completed = True
-            autocomplete_count = 1
-            autocomplete_total += 1
-            now = datetime.now().isoformat()
-            config = {"reason": "skipped via launcher auto-complete"}
-            results = {}
+        # if choice == "a":
+        #     # Right now, I have it set to ask for auto-complete at the start of task
+        #     auto_completed = True
+        #     autocomplete_count = 1
+        #     autocomplete_total += 1
+        #     now = datetime.now().isoformat()
+        #     config = {"reason": "skipped via launcher auto-complete"}
+        #     results = {}
+        # else:
+        # If not auto-complete, proceed to task
+        if t == "type":
+            record = run_type(participant_id, task_num)
+        elif t == "fitts":
+            record = run_fitts(participant_id, task_num)
+        elif t == "dbd":
+            record = run_dbd(participant_id, task_num)
         else:
-            # If not auto-complete, proceed to task
-            if t == "type":
-                record = run_type(participant_id, task_num)
-            elif t == "fitts":
-                record = run_fitts(participant_id, task_num)
-            elif t == "dbd":
-                record = run_dbd(participant_id, task_num)
-            else:
-                raise ValueError(f"Unknown task {t}")
+            raise ValueError(f"Unknown task {t}")
 
-            config = record["config"]
-            now_start = record["start_time"]
-            now_end = record["end_time"]
+        config = record["config"]
+        now_start = record["start_time"]
+        now_end = record["end_time"]
 
         # If auto-completed, fabricate start/end times
         if auto_completed:
@@ -233,10 +233,12 @@ def main():
         })
         task_num += 1
         f.flush()
+        # The tasks restart again after 5 minutes
+        time.sleep(300)
 
     f.close()
     # print(f"\nExperiment complete. Total auto-completes used: {autocomplete_total}")
     # print(f"Results saved to: {out_csv}")
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
