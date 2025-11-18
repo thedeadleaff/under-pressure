@@ -20,6 +20,9 @@ DBD_STATUS = "PENDING"
 FITTS_STATUS = "PENDING"
 TYPING_STATUS = "PENDING"
 
+# Participant information saved
+permissions = ['Location', 'History', 'Files and Bookmarks', 'Employee Profile']
+
 def minutes():
     return random.randint(1,45)
 
@@ -293,109 +296,9 @@ class PelioDashboard:
             
             Label(item_frame, text=label, font=('Arial', 9),
                     fg=self.colors['text_light'], bg=self.colors['white']).pack(side='left')
-        # transactions_data = [
-        #     ("sengideons.com", "$4,67,859", "6 min ago", self.colors['card_blue'], "CA"),
-        #     ("HSJ Express.com", "$89,859", "6 min ago", self.colors['card_yellow'], "HE"),
-        #     ("InvestInvesthamim.Inc", "$3,43,67,859", "6 min ago", self.colors['card_green'], "II"),
-        #     ("AvadStudio Inc", "$2,07,859", "6 min ago", self.colors['card_red'], "AS")
-        # ]
-        
-        # for company, amount, time, color, initials in transactions_data:
-        #     trans_row = Frame(parent, bg=self.colors['white'])
-        #     trans_row.pack(fill='x', padx=20, pady=8)
-            
-        #     # Company icon
-        #     icon_frame = Frame(trans_row, bg=color, width=40, height=40)
-        #     icon_frame.pack(side='left', padx=(0, 15))
-        #     icon_frame.pack_propagate(False)
-            
-        #     Label(icon_frame, text=initials, font=('Arial', 10, 'bold'),
-        #             fg='white', bg=color).place(relx=0.5, rely=0.5, anchor='center')
-            
-        #     # Company details
-        #     details_frame = Frame(trans_row, bg=self.colors['white'])
-        #     details_frame.pack(side='left', fill='x', expand=True)
-            
-        #     Label(details_frame, text=company, font=('Arial', 11, 'bold'),
-        #             fg=self.colors['text_dark'], bg=self.colors['white']).pack(anchor='w')
-        #     Label(details_frame, text=f"#{random.randint(100000, 999999)}-{random.randint(100, 999)}-{random.randint(100, 999)}", 
-        #             font=('Arial', 9), fg=self.colors['text_light'], bg=self.colors['white']).pack(anchor='w')
-            
-        #     # Amount and time
-        #     right_details = Frame(trans_row, bg=self.colors['white'])
-        #     right_details.pack(side='right')
-            
-        #     Label(right_details, text=amount, font=('Arial', 11, 'bold'),
-        #             fg=self.colors['text_dark'], bg=self.colors['white']).pack(anchor='e')
-        #     Label(right_details, text=time, font=('Arial', 9),
-        #             fg=self.colors['text_light'], bg=self.colors['white']).pack(anchor='e')
-            
-            # # Action button
-            # Button(right_details, text="⋯", font=('Arial', 12), 
-            #          bg=self.colors['white'], bd=0, cursor='hand2').pack(side='right', padx=10)
-        
-        # Pagination
-        # pagination = Frame(parent, bg=self.colors['white'])
-        # pagination.pack(fill='x', padx=20, pady=20)
-        
-        # Label(pagination, text="Showing 1-4 from 60 Data", font=('Arial', 10),
-        #         fg=self.colors['text_light'], bg=self.colors['white']).pack(side='left')
-        
-        # Page numbers
-        # page_frame = Frame(pagination, bg=self.colors['white'])
-        # page_frame.pack(side='right')
-        
-        # for i, page in enumerate(['<', '1', '2', '3', '>']):
-        #     bg = self.colors['card_blue'] if page == '1' else self.colors['white']
-        #     fg = 'white' if page == '1' else self.colors['text_dark']
-            
-        #     Button(page_frame, text=page, font=('Arial', 10), 
-        #              bg=bg, fg=fg, bd=1, width=3, cursor='hand2').pack(side='left', padx=2)
     
     def create_statistics_chart(self, parent):
         """Create a simple statistics chart"""
-        # chart_frame = Frame(parent, bg=self.colors['white'], height=200)
-        # chart_frame.pack(fill='x', padx=20, pady=20)
-        # chart_frame.pack_propagate(False)
-        
-        # # Simple bar chart using canvas
-        # canvas = Canvas(chart_frame, bg=self.colors['white'], height=150, highlightthickness=0)
-        # canvas.pack(fill='both', expand=True)
-        
-        # # Draw bars
-        # bar_colors = [self.colors['card_green'], self.colors['card_red'], 
-        #              self.colors['card_blue'], self.colors['card_yellow']]
-        # bar_heights = [80, 60, 100, 45, 70, 85, 55, 90, 65, 75]
-        
-        # bar_width = 25
-        # spacing = 35
-        # start_x = 30
-        
-        # for i, height in enumerate(bar_heights):
-        #     x = start_x + i * spacing
-        #     color = bar_colors[i % len(bar_colors)]
-            
-        #     # Draw bar
-        #     canvas.create_rectangle(x, 130 - height, x + bar_width, 130, 
-        #                           fill=color, outline="")
-        
-        # # Legend
-        # legend_frame = Frame(parent, bg=self.colors['white'])
-        # legend_frame.pack(fill='x', padx=20, pady=10)
-        
-        # legend_items = [("Green", self.colors['card_green']), ("Blue", self.colors['card_blue']),
-        #                ("Yellow", self.colors['card_yellow']), ("Red", self.colors['card_red'])]
-        
-        # for label, color in legend_items:
-        #     item_frame = Frame(legend_frame, bg=self.colors['white'])
-        #     item_frame.pack(side='left', padx=10)
-            
-        #     # Color dot
-        #     dot = Frame(item_frame, bg=color, width=10, height=10)
-        #     dot.pack(side='left', padx=(0, 5))
-            
-        #     Label(item_frame, text=label, font=('Arial', 9),
-        #             fg=self.colors['text_light'], bg=self.colors['white']).pack(side='left')
         transactions_data = [
             ("Answer emails", DBD_STATUS, "Requested "+str(minutes())+" min ago", self.colors['card_green'], "AC"),
             ("Complete projections", FITTS_STATUS, "Requested "+str(minutes())+" min ago", self.colors['card_blue'], "BA"),
@@ -431,10 +334,6 @@ class PelioDashboard:
                     fg=self.colors['text_dark'], bg=self.colors['white']).pack(anchor='e')
             Label(right_details, text=time, font=('Arial', 12),
                     fg=self.colors['text_light'], bg=self.colors['white']).pack(anchor='e')
-            
-            # Action button
-            # Button(right_details, text="⋯", font=('Arial', 12), 
-            #          bg=self.colors['white'], bd=0, cursor='hand2').pack(side='right', padx=10)
     
     def create_bottom_section(self):
         """Create the bottom section with balance and activity"""
@@ -582,37 +481,22 @@ class PelioDashboard:
         
     def work_task(self):
         modal = Toplevel(background="darkslategray")
-        modal.geometry(f"{str(self.win_x+800)}x{str(self.win_y+300)}")
+        modal.geometry(f"{str(self.win_x+800)}x{str(self.win_y+200)}")
         modal.title("Work Task Portal")
-        # label = Label(modal, text="This is a modal dialog.")
-        # label.pack(padx=20, pady=20)
-        # frame = Frame(self, background="darkslategray", height=800, width=800)
-        # frame.pack(padx=10, pady=10)
-        # button = Button(modal, text="Close", command=modal.destroy)
-        # button.pack(pady=10)
+        button = Button(modal, text="Autocomplete Task", background="darkslategray",
+                        command=lambda: [modal.destroy, run_tasks(PARTICIPANT, END, True)])
+        button.pack(pady=10)
+        label = Label(modal, text="Autocomplete will access your "+random.choice(permissions)+".")
+        label.pack(padx=20, pady=20)
+        # run_tasks(PARTICIPANT, END)
+        modal_button = Button(modal, text="Work on Task", background="darkslategray",
+                              command=lambda: [modal.destroy, run_tasks(PARTICIPANT, END, False)])
+        modal_button.pack(pady=20)
+        label = Label(modal, text="No additional permissions required.")
+        label.pack(padx=20, pady=20)
         modal.grab_set()  # Make the pop-up modal
         modal.focus_force # Wait until the pop-up is closed
-        run_tasks(PARTICIPANT, END)
-        # modal_button = Button(modal, text="Open Modal", command=modal.destroy)
-        # modal_button.pack(pady=20)
         self.root.wait_window()
-
-# def work_task(self, win_x, win_y):
-#     modal = Toplevel(background="darkslategray")
-#     modal.geometry(f"{str(win_x+800)}x{str(win_y+300)}")
-#     modal.title("Work Task")
-#     # label = Label(modal, text="This is a modal dialog.")
-#     # label.pack(padx=20, pady=20)
-#     # frame = Frame(self, background="darkslategray", height=800, width=800)
-#     # frame.pack(padx=10, pady=10)
-#     # button = Button(modal, text="Close", command=modal.destroy)
-#     # button.pack(pady=10)
-#     modal.grab_set()  # Make the pop-up modal
-#     modal.focus_force # Wait until the pop-up is closed
-#     # print("Modal dialog closed.")
-#     modal_button = Button(modal, text="Open Modal", command=modal.destroy)
-#     modal_button.pack(pady=20)
-#     self.root.wait_window()
 
 def main():
     root = Tk()

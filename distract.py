@@ -152,7 +152,7 @@ def run_dbd(participant_id, task_index):
     }
 
 # Right now, its all on console but we can link it to the GUI
-def run_tasks(id, end_time):
+def run_tasks(id, end_time, auto):
     # Participant ID (1-12 or something)
     participant_id = id
     if not participant_id:
@@ -194,28 +194,28 @@ def run_tasks(id, end_time):
         auto_completed = False
         autocomplete_count = 0
 
-        # if choice == "a":
-        #     # Right now, I have it set to ask for auto-complete at the start of task
-        #     auto_completed = True
-        #     autocomplete_count = 1
-        #     autocomplete_total += 1
-        #     now = datetime.now().isoformat()
-        #     config = {"reason": "skipped via launcher auto-complete"}
-        #     results = {}
-        # else:
-        # If not auto-complete, proceed to task
-        if t == "type":
-            record = run_type(participant_id, task_num)
-        elif t == "fitts":
-            record = run_fitts(participant_id, task_num)
-        elif t == "dbd":
-            record = run_dbd(participant_id, task_num)
+        if auto:
+            # Right now, I have it set to ask for auto-complete at the start of task
+            auto_completed = True
+            autocomplete_count = 1
+            autocomplete_total += 1
+            now = datetime.now().isoformat()
+            config = {"reason": "skipped via launcher auto-complete"}
+            results = {}
         else:
-            raise ValueError(f"Unknown task {t}")
+        # If not auto-complete, proceed to task
+            if t == "type":
+                record = run_type(participant_id, task_num)
+            elif t == "fitts":
+                record = run_fitts(participant_id, task_num)
+            elif t == "dbd":
+                record = run_dbd(participant_id, task_num)
+            else:
+                raise ValueError(f"Unknown task {t}")
 
-        config = record["config"]
-        now_start = record["start_time"]
-        now_end = record["end_time"]
+            config = record["config"]
+            now_start = record["start_time"]
+            now_end = record["end_time"]
 
         # If auto-completed, fabricate start/end times
         if auto_completed:
