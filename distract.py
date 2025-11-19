@@ -20,7 +20,7 @@ DBD_DIR = Path("DBD")
 
 SD2_FITTS = "*.sd2" 
 SD2_TYPE = "*.sd2"
-DBD_URL = 'https://dbd.lucaservers.com/' #"http://localhost:8080", I haven't implemented a local version yet cuz I'm getting sleepy
+DBD_URL = "http://localhost:8080"
 
 def run_fitts(participant_id, task_index, fittsT): 
 
@@ -140,6 +140,17 @@ def write_typing_cfg(participant_code="P01",
     cfg_path.write_text(text, encoding="utf-8")
     return cfg_path
 
+def start_dbd_server():
+
+    proc = subprocess.Popen(
+        ["npm.cmd", "run", "serve"], 
+        cwd=DBD_DIR,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL
+    )
+    time.sleep(5)
+    return proc
+
 def run_dbd(participant_id, task_index):
 
     # Open browser
@@ -161,6 +172,7 @@ def run_dbd(participant_id, task_index):
 # Right now, its all on console but we can link it to the GUI
 def run_tasks(id, end_time, auto, permissions):
     # Participant ID (1-12 or something)
+    start_dbd_server()
     participant_id = id
     if not participant_id:
         print("No ID, aborting.")

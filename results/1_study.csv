@@ -12,3 +12,8 @@ participant_id,task_type,task_index,start_time,end_time,auto_completed,autocompl
 1,fittsC,8,2025-11-19T00:11:58.892360,2025-11-19T00:11:58.892360,False,1,"{""sd2_file"": ""FittsTask-P00-C00-S00-G00-2D-MB-PS-Show-B02.sd2""}"
 1,fittsC,9,2025-11-19T00:12:08.315672,2025-11-19T00:12:08.315672,True,1,"{""reason"": ""skipped via launcher auto-complete""}"
 1,dbd,10,2025-11-19T00:12:09.051729,2025-11-19T00:12:09.051729,True,1,"{""reason"": ""skipped via launcher auto-complete""}"
+1,dbd,1,2025-11-19T00:57:56.101726,2025-11-19T00:59:25.848073,False,0,"{""url"": ""http://localhost:8080""}"
+1,fittsR,1,2025-11-19T00:59:48.011087,2025-11-19T00:59:48.011087,True,1,"{""reason"": ""skipped via launcher auto-complete""}"
+1,type,2,2025-11-19T00:59:49.014980,2025-11-19T00:59:49.014980,True,1,"{""reason"": ""skipped via launcher auto-complete""}"
+1,fittsC,3,2025-11-19T00:59:50.228421,2025-11-19T00:59:50.228421,True,1,"{""reason"": ""skipped via launcher auto-complete""}"
+1,type,4,2025-11-19T00:59:50.795606,2025-11-19T00:59:50.795606,True,1,"{""reason"": ""skipped via launcher auto-complete""}"
