@@ -410,7 +410,7 @@ class PelioDashboard:
         other_stats = Frame(middle_frame, bg=self.colors['white'])
         other_stats.pack(fill='x', padx=20, pady=10)
         
-        Label(other_stats, text=f"Income Generated     ${completed()},25", font=('Arial', 10),
+        Label(other_stats, text=f"Income Generated     ${completed()}", font=('Arial', 10),
                 fg=self.colors['text_dark'], bg=self.colors['white']).pack(anchor='w')
         Label(other_stats, text="Company Total       $365,478", font=('Arial', 10),
                 fg=self.colors['text_dark'], bg=self.colors['white']).pack(anchor='w', pady=(5, 0))
@@ -486,7 +486,8 @@ class PelioDashboard:
         button = Button(popup, text="See first work task", background="white", foreground=self.colors['text_dark'],
                         command=lambda: [popup.destroy(), self.work()])
         button.pack(pady=10)
-
+        popup.focus_force
+    
     def work(self):
         result = messagebox.askquestion("New Work Task Assigned!", "You have been assigned a new work task to complete.\n"+
                                         "\nAutocompleting will access your "+random.choice(permissions)+".\n\nWould you like to autocomplete this task?"
