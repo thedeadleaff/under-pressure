@@ -487,7 +487,8 @@ class PelioDashboard:
         
     def work(self):
         result = messagebox.askquestion("New Work Task Assigned!", "You have been assigned a new work task to complete.\n"+
-                                        "Would you like to autocomplete it? Autocompleting will access your "+random.choice(permissions)+".")
+                                        "\nAutocompleting will access your "+random.choice(permissions)+".\n\nWould you like to autocomplete this task?"
+                                        , icon=messagebox.QUESTION)
         if result == 'yes':
             run_tasks(PARTICIPANT, END, True)
         else:
