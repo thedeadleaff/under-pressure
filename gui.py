@@ -477,8 +477,10 @@ class PelioDashboard:
 
     def open_popup(self):
         popup = Toplevel(background="darkslategray")
+        popup.attributes('--topmost', True)
         popup.title("A New Message from The Office")
         popup.geometry(f"600x200+{int(self.root.winfo_screenwidth()/2-250)}+{int(self.root.winfo_screenheight()/4)}")
+        popup.focus_force
         label = Label(popup, background="darkslategray", foreground="white", text="Welcome back!\n\n"+
                       "Your dashboard offers a summary of organization progress and any new work assignments.\n"+
                       "You have new work assignments to complete!")
@@ -486,7 +488,6 @@ class PelioDashboard:
         button = Button(popup, text="See first work task", background="white", foreground=self.colors['text_dark'],
                         command=lambda: [popup.destroy(), self.work()])
         button.pack(pady=10)
-        popup.focus_force
     
     def work(self):
         result = messagebox.askquestion("New Work Task Assigned!", "You have been assigned a new work task to complete.\n"+
@@ -506,8 +507,10 @@ def main():
         # app.work_task()
         # autocomplete_status
     # root.mainloop()
-    if time.time() == END:
-        messagebox.showinfo("Clocked Out", "It looks like your work day is finished. Goodbye!")
+    if time.time() >= END:
+        messagebox.showinfo("Clocked Out", "Your work day is finally finished. Goodbye!")
+        # Give enough time for the user to read the exit message
+        time.sleep(5)
         sys.exit()
     else:
         app.root.mainloop()
