@@ -1,0 +1,161 @@
+the capital of our nation
+the capital of our nation
+0 t
+109 h
+203 e
+297 space
+421 c
+609 a
+811 p
+1311 i
+1482 t
+1638 a
+1763 l
+1888 space
+1997 o
+2153 f
+2247 space
+2340 o
+2418 u
+2512 r
+2621 space
+2902 n
+3042 a
+3198 t
+3261 i
+3354 o
+3417 n
+3604 enter
+#
+I will meet you at noon
+i will meet you at noon
+0 i
+156 space
+437 w
+515 i
+749 l
+936 l
+1046 space
+1280 m
+1436 e
+1576 e
+1748 t
+1950 space
+2138 y
+2278 o
+2387 u
+2434 space
+2543 a
+2652 t
+2777 space
+3027 n
+3136 o
+3292 o
+3510 n
+3713 enter
+#
+get your priorities in order
+get your priorities in the order
+0 g
+125 e
+203 t
+281 space
+421 y
+546 o
+655 u
+702 r
+811 space
+983 p
+1092 r
+1170 i
+1311 o
+1779 r
+1903 i
+2028 t
+2169 y
+2808 backspace
+2964 i
+3073 e
+3214 s
+3354 space
+3526 i
+3588 n
+3666 space
+3713 t
+3807 h
+3838 e
+3947 space
+4025 o
+4134 r
+4337 d
+4696 e
+4805 r
+4914 enter
+#
+granite is the hardest of all rocks
+granite is the hardest of all rocks
+0 g
+156 r
+250 a
+390 n
+530 i
+640 t
+780 e
+920 space
+1045 i
+1201 s
+1279 space
+1388 t
+1466 h
+1544 e
+1622 space
+2028 h
+2153 a
+2246 r
+2449 d
+2621 e
+2964 s
+3120 t
+3229 space
+3307 o
+3432 f
+3541 space
+3619 a
+3744 l
+3900 l
+4009 space
+4165 r
+4321 o
+4508 c
+4618 k
+4727 s
+4852 enter
+#
+do not walk too quickly
+do not walkk too quickly
+0 d
+156 o
+468 space
+640 n
+702 o
+811 t
+921 space
+1108 w
+1264 a
+1373 l
+1498 k
+1685 k
+1888 space
+2122 t
+2247 o
+2418 o
+2559 space
+2761 q
+2902 u
+3027 i
+3183 c
+3245 k
+3417 l
+3557 y
+3760 enter
+#

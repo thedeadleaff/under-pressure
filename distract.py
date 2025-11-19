@@ -13,7 +13,8 @@ HOME = Path.home()
 RESULTS_DIR = Path("results")
 RESULTS_DIR.mkdir(exist_ok=True)
 
-FITTS_DIR = Path("GoFitts")
+FITTS_C_DIR = Path("GoFittsCircle")
+FITTS_R_DIR = Path("GoFittsRectangle")
 TYPE_DIR = Path("TypingTest")
 DBD_DIR = Path("DBD")
 
@@ -21,27 +22,32 @@ SD2_FITTS = "*.sd2"
 SD2_TYPE = "*.sd2"
 DBD_URL = 'https://dbd.lucaservers.com/' #"http://localhost:8080", I haven't implemented a local version yet cuz I'm getting sleepy
 
-def run_fitts(participant_id, task_index): 
+def run_fitts(participant_id, task_index, fittsT): 
 
+    if fittsT == "C":
+        fittsDir = FITTS_C_DIR
+    elif fittsT == "R":
+        fittsDir = FITTS_R_DIR
+        
     # Snapshot sd2 files before
-    before = {p.name for p in FITTS_DIR.glob(SD2_FITTS)}
+    before = {p.name for p in fittsDir.glob(SD2_FITTS)}
 
     # Launch GoFitts
     subprocess.run(
         ["java", "-jar", "GoFitts.jar"],
-        cwd=FITTS_DIR,
+        cwd=fittsDir,
         check=True
     )
 
     # If we want to parse data after each run then we can look through it, for now its just to reference data made by Fitt's module
     # Find new sd2 files
-    after = {p.name for p in FITTS_DIR.glob(SD2_FITTS)}
+    after = {p.name for p in fittsDir.glob(SD2_FITTS)}
     new_files = list(after - before)
     if not new_files:
         raise RuntimeError("No new .sd2 file created by GoFitts.")
 
     # If multiple, pick the most recent by time
-    sd2_paths = [FITTS_DIR / name for name in new_files]
+    sd2_paths = [fittsDir / name for name in new_files]
     sd2_path = max(sd2_paths, key=lambda p: p.stat().st_mtime)
 
     now = datetime.now().isoformat()
@@ -161,7 +167,7 @@ def run_tasks(id, end_time, auto, permissions):
         return
 
     # If we want to add more then we can
-    tasks = ["type", "fitts", "dbd"]
+    tasks = ["type", "fittsR", "fittsC", "dbd"]
     task_num = 1
 
     # Create csv file for data gathering
@@ -244,12 +250,12 @@ def work_tasks(writer, tasks, f, participant_id, auto, end, task_num, autocomple
 
     # Console command version, can attach to GUI properly
     print(f"Trial {task_num}: {t}")
-
-    # result = messagebox.askquestion("New Work Task Assigned!", "You have been assigned a new work task to complete.\n"+
-    #                                     "\nAutocompleting will access your "+random.choice(permissions)+
-    #                                     ".\n\nWould you like to autocomplete this task?"
-    #                                     , icon=messagebox.WARNING)
-    result = messagebox.Message("New Work Task Assigned!", icon=messagebox.QUESTION)
+    
+    result = messagebox.askquestion("New Work Task Assigned!", "You have been assigned a new work task to complete.\n"+
+                                         "\nAutocompleting will access your "+random.choice(permissions)+
+                                         ".\n\nWould you like to autocomplete this task?"
+                                         , icon=messagebox.WARNING)
+    # result = messagebox.Message("New Work Task Assigned!", icon=messagebox.QUESTION)
     if result == 'yes':
         auto_completed = True
         auto = True
@@ -270,8 +276,10 @@ def work_tasks(writer, tasks, f, participant_id, auto, end, task_num, autocomple
         # If not auto-complete, proceed to task
             if t == "type":
                 record = run_type(participant_id, task_num)
-            elif t == "fitts":
-                record = run_fitts(participant_id, task_num)
+            elif t == "fittsR":
+                record = run_fitts(participant_id, task_num, "R")
+            elif t == "fittsC":
+                record = run_fitts(participant_id, task_num, "C")
             elif t == "dbd":
                 record = run_dbd(participant_id, task_num)
             else:

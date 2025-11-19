@@ -1,0 +1,2 @@
+TRACE DATA
+App,Participant,Condition,Session,Group,TaskType,SelectionMethod,InteractionMethod,Block,Sequence,A,W,Trial,from_x,from_y,to_x,to_y,{t_x_y}
