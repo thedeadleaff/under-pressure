@@ -172,7 +172,7 @@ def run_dbd(participant_id, task_index):
 # Right now, its all on console but we can link it to the GUI
 def run_tasks(id, end_time, auto, permissions):
     # Participant ID (1-12 or something)
-    start_dbd_server()
+    server_proc = start_dbd_server()
     participant_id = id
     if not participant_id:
         print("No ID, aborting.")
@@ -251,7 +251,11 @@ def run_tasks(id, end_time, auto, permissions):
     autocomplete_count = 0
     work_tasks(writer, tasks, f, participant_id, auto, end_time, task_num, 
                autocomplete_total, permissions, autocomplete_count)
-
+    try:
+        server_proc.terminate()
+        server_proc.wait(timeout=3)
+    except Exception:
+        server_proc.kill()
     f.close()
     # print(f"\nExperiment complete. Total auto-completes used: {autocomplete_total}")
     # print(f"Results saved to: {out_csv}")
