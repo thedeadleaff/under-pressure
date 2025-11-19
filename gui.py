@@ -477,7 +477,7 @@ class PelioDashboard:
 
     def open_popup(self):
         popup = Toplevel(background="darkslategray")
-        popup.attributes('--topmost', True)
+        popup.attributes('-topmost', True)
         popup.title("A New Message from The Office")
         popup.geometry(f"600x200+{int(self.root.winfo_screenwidth()/2-250)}+{int(self.root.winfo_screenheight()/4)}")
         popup.focus_force
