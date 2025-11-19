@@ -5,6 +5,7 @@ import random
 import subprocess
 import webbrowser
 import time
+from tkinter import messagebox
 from datetime import datetime
 from pathlib import Path
 
@@ -152,7 +153,7 @@ def run_dbd(participant_id, task_index):
     }
 
 # Right now, its all on console but we can link it to the GUI
-def run_tasks(id, end_time, auto):
+def run_tasks(id, end_time, auto, permissions):
     # Participant ID (1-12 or something)
     participant_id = id
     if not participant_id:
@@ -179,24 +180,87 @@ def run_tasks(id, end_time, auto):
     # Auto-complete counter
     autocomplete_total = 0
 
-    while time.time() < end_time:
-        t = random.choice(tasks)
+    # while time.time() < end_time:
+    #     t = random.choice(tasks)
 
-        # Console command version, can attach to GUI properly
-        print(f"Trial {task_num}: {t}")
-        # choice = input("Press ENTER to do it, type 'a' to auto-complete/skip or type 'q' to quit: ").strip().lower()
+    #     # Console command version, can attach to GUI properly
+    #     print(f"Trial {task_num}: {t}")
 
-        # Right now, its on a break BUT we can create a timer for 15 mins to force break
-        # if choice == "q":
-        #         print("Stopping experiment.")
-        #         break
+    #     auto_completed = False
+    #     autocomplete_count = 0
 
+    #     if auto:
+    #         # Right now, I have it set to ask for auto-complete at the start of task
+    #         auto_completed = True
+    #         autocomplete_count = 1
+    #         autocomplete_total += 1
+    #         now = datetime.now().isoformat()
+    #         config = {"reason": "skipped via launcher auto-complete"}
+    #         results = {}
+    #     else:
+    #     # If not auto-complete, proceed to task
+    #         if t == "type":
+    #             record = run_type(participant_id, task_num)
+    #         elif t == "fitts":
+    #             record = run_fitts(participant_id, task_num)
+    #         elif t == "dbd":
+    #             record = run_dbd(participant_id, task_num)
+    #         else:
+    #             raise ValueError(f"Unknown task {t}")
+
+    #         config = record["config"]
+    #         now_start = record["start_time"]
+    #         now_end = record["end_time"]
+
+    #     # If auto-completed, fabricate start/end times
+    #     if auto_completed:
+    #         now_start = now_end = datetime.now().isoformat()
+
+    #     writer.writerow({
+    #         "participant_id": participant_id,
+    #         "task_type": t,
+    #         "task_index": task_num,
+    #         "start_time": now_start,
+    #         "end_time": now_end,
+    #         "auto_completed": auto_completed,
+    #         "autocomplete_count": autocomplete_count,
+    #         "config_json": json.dumps(config, ensure_ascii=False)
+    #     })
+    #     task_num += 1
+    #     f.flush()
+    #     # The tasks restart again after 5 minutes
+    #     time.sleep(300)
+    autocomplete_count = 0
+    work_tasks(writer, tasks, f, participant_id, auto, end_time, task_num, 
+               autocomplete_total, permissions, autocomplete_count)
+
+    f.close()
+    # print(f"\nExperiment complete. Total auto-completes used: {autocomplete_total}")
+    # print(f"Results saved to: {out_csv}")
+
+def work_tasks(writer, tasks, f, participant_id, auto, end, task_num, autocomplete_total, 
+               permissions, autocomplete_count):
+    t = random.choice(tasks)
+
+    # Console command version, can attach to GUI properly
+    print(f"Trial {task_num}: {t}")
+
+    # result = messagebox.askquestion("New Work Task Assigned!", "You have been assigned a new work task to complete.\n"+
+    #                                     "\nAutocompleting will access your "+random.choice(permissions)+
+    #                                     ".\n\nWould you like to autocomplete this task?"
+    #                                     , icon=messagebox.WARNING)
+    result = messagebox.Message("New Work Task Assigned!", icon=messagebox.QUESTION)
+    if result == 'yes':
+        auto_completed = True
+        auto = True
+    else:
         auto_completed = False
-        autocomplete_count = 0
+        auto = False
 
+    if time.time() < end:
         if auto:
             # Right now, I have it set to ask for auto-complete at the start of task
-            auto_completed = True
+            # auto_completed = True
             autocomplete_count = 1
             autocomplete_total += 1
             now = datetime.now().isoformat()
@@ -233,12 +297,11 @@ def run_tasks(id, end_time, auto):
         })
         task_num += 1
         f.flush()
-        # The tasks restart again after 5 minutes
-        time.sleep(300)
-
-    f.close()
-    # print(f"\nExperiment complete. Total auto-completes used: {autocomplete_total}")
-    # print(f"Results saved to: {out_csv}")
+        work_tasks(writer, tasks, f, participant_id, auto_completed, end, task_num, 
+                   autocomplete_total, permissions, autocomplete_count)
+    else:
+        print("Work day is over!")
+        messagebox.showinfo("Clocked Out", "It looks like your work day is finished. Goodbye!")
 
 # if __name__ == "__main__":
 #     main()

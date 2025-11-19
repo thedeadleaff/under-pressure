@@ -22,7 +22,7 @@ TYPING_STATUS = "PENDING"
 auto = False
 
 # Participant information saved
-permissions = ['Location', 'History', 'Files and Bookmarks', 'Employee Profile']
+permissions = ['Location', 'History', 'Files and Bookmarks', 'Employee Profile', 'Personal Background']
 
 def minutes():
     return random.randint(1,45)
@@ -41,7 +41,8 @@ class PelioDashboard:
         self.win_x = win_x
         self.win_y = win_y
         self.root.title("Under Pressure")
-        self.root.geometry("1680x1050")
+        # self.root.geometry("1680x1050")
+        self.root.geometry(f"{self.root.winfo_screenwidth()}x{self.root.winfo_screenheight()}")
         self.root.configure(bg="white")
         
         self.colors = {
@@ -367,10 +368,10 @@ class PelioDashboard:
         details_frame = Frame(balance_frame, bg=self.colors['card_blue'])
         details_frame.pack(anchor='w', padx=20, pady=10)
         
-        Label(details_frame, text="Valid Thru\n03/25", font=('Arial', 9),
+        Label(details_frame, text="Valid Thru\n03/28", font=('Arial', 9),
                 fg='white', bg=self.colors['card_blue']).pack(side='left')
         
-        Label(details_frame, text="Name\nSen Gideons", font=('Arial', 9),
+        Label(details_frame, text=f"Name\n{PARTICIPANT}", font=('Arial', 9),
                 fg='white', bg=self.colors['card_blue']).pack(side='left', padx=(30, 0))
         
         # Middle section - Balance Details
@@ -409,9 +410,9 @@ class PelioDashboard:
         other_stats = Frame(middle_frame, bg=self.colors['white'])
         other_stats.pack(fill='x', padx=20, pady=10)
         
-        Label(other_stats, text="Income     $255.25", font=('Arial', 10),
+        Label(other_stats, text=f"Income Generated     ${completed()},25", font=('Arial', 10),
                 fg=self.colors['text_dark'], bg=self.colors['white']).pack(anchor='w')
-        Label(other_stats, text="Total       $365,478", font=('Arial', 10),
+        Label(other_stats, text="Company Total       $365,478", font=('Arial', 10),
                 fg=self.colors['text_dark'], bg=self.colors['white']).pack(anchor='w', pady=(5, 0))
         
         # Right side - Activity
@@ -477,45 +478,23 @@ class PelioDashboard:
     def open_popup(self):
         popup = Toplevel(background="darkslategray")
         popup.title("A New Message from The Office")
+        popup.geometry(f"600x200+{int(self.root.winfo_screenwidth()/2-250)}+{int(self.root.winfo_screenheight()/4)}")
         label = Label(popup, background="darkslategray", foreground="white", text="Welcome back!\n\n"+
                       "Your dashboard offers a summary of organization progress and any new work assignments.\n"+
                       "You have new work assignments to complete!")
         label.pack(padx=20, pady=20)
-        button = Button(popup, text="See first work task", background="darkslategray", foreground=self.colors['text_light'],
+        button = Button(popup, text="See first work task", background="white", foreground=self.colors['text_dark'],
                         command=lambda: [popup.destroy(), self.work()])
         button.pack(pady=10)
-        
+
     def work(self):
         result = messagebox.askquestion("New Work Task Assigned!", "You have been assigned a new work task to complete.\n"+
                                         "\nAutocompleting will access your "+random.choice(permissions)+".\n\nWould you like to autocomplete this task?"
-                                        , icon=messagebox.QUESTION)
+                                        , icon=messagebox.WARNING)
         if result == 'yes':
-            run_tasks(PARTICIPANT, END, True)
+            run_tasks(PARTICIPANT, END, True, permissions)
         else:
-            run_tasks(PARTICIPANT, END, False)
-        
-    def work_task(self):
-        modal = Toplevel(background="darkslategray")
-        modal.geometry(f"{str(self.win_x+800)}x{str(self.win_y+200)}")
-        modal.title("Work Task Portal")
-        button = Button(modal, text="Autocomplete Task", background="darkslategray",
-                        command=lambda: [modal.destroy(), run_tasks(PARTICIPANT, END, True)])
-                        # command=lambda: [modal.destroy, set_autocomplete_status(True)])
-        button.pack(pady=10)
-        label = Label(modal, background="darkslategray", 
-                      text="Autocomplete will access your "+random.choice(permissions)+".")
-        label.pack(padx=20, pady=20)
-        # run_tasks(PARTICIPANT, END)
-        modal_button = Button(modal, text="Work on Task", background="darkslategray",
-                              command=lambda: [modal.destroy(), run_tasks(PARTICIPANT, END, False)])
-                            #   command=lambda: [modal.destroy, set_autocomplete_status(False)])
-        modal_button.pack(pady=20)
-        label = Label(modal, text="No additional permissions required.", background="darkslategray")
-        label.pack(padx=20, pady=20)
-        modal.grab_set()  # Make the pop-up modal
-        # modal.focus_force # Wait until the pop-up is closed
-        # self.root.wait_window()
-        # run_tasks(PARTICIPANT, END, autocomplete_status())
+            run_tasks(PARTICIPANT, END, False, permissions)
 
 def main():
     root = Tk()
@@ -531,7 +510,6 @@ def main():
         sys.exit()
     else:
         app.root.mainloop()
-    # app.root.after_idle(work_task(root, win_x, win_y))
 
 if __name__ == "__main__":
     main()
