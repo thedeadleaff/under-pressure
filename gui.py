@@ -19,6 +19,7 @@ PARTICIPANT = str(sys.argv[1])
 DBD_STATUS = "PENDING"
 FITTS_STATUS = "PENDING"
 TYPING_STATUS = "PENDING"
+auto = False
 
 # Participant information saved
 permissions = ['Location', 'History', 'Files and Bookmarks', 'Employee Profile']
@@ -29,6 +30,11 @@ def minutes():
 def completed():
     return random.randint(454,49820)
 
+def autocomplete_status():
+    return auto
+    
+def set_autocomplete_status(status):
+    auto = status
 class PelioDashboard:
     def __init__(self, root, win_x, win_y):
         self.root = root
@@ -476,35 +482,48 @@ class PelioDashboard:
                       "You have new work assignments to complete!")
         label.pack(padx=20, pady=20)
         button = Button(popup, text="See first work task", background="darkslategray", foreground=self.colors['text_light'],
-                        command=lambda: [popup.destroy(), self.work_task()])
+                        command=lambda: [popup.destroy(), self.work()])
         button.pack(pady=10)
+        
+    def work(self):
+        result = messagebox.askquestion("New Work Task Assigned!", "You have been assigned a new work task to complete.\n"+
+                                        "Would you like to autocomplete it? Autocompleting will access your "+random.choice(permissions)+".")
+        if result == 'yes':
+            run_tasks(PARTICIPANT, END, True)
+        else:
+            run_tasks(PARTICIPANT, END, False)
         
     def work_task(self):
         modal = Toplevel(background="darkslategray")
         modal.geometry(f"{str(self.win_x+800)}x{str(self.win_y+200)}")
         modal.title("Work Task Portal")
         button = Button(modal, text="Autocomplete Task", background="darkslategray",
-                        command=lambda: [modal.destroy, run_tasks(PARTICIPANT, END, True)])
+                        command=lambda: [modal.destroy(), run_tasks(PARTICIPANT, END, True)])
+                        # command=lambda: [modal.destroy, set_autocomplete_status(True)])
         button.pack(pady=10)
-        label = Label(modal, text="Autocomplete will access your "+random.choice(permissions)+".")
+        label = Label(modal, background="darkslategray", 
+                      text="Autocomplete will access your "+random.choice(permissions)+".")
         label.pack(padx=20, pady=20)
         # run_tasks(PARTICIPANT, END)
         modal_button = Button(modal, text="Work on Task", background="darkslategray",
-                              command=lambda: [modal.destroy, run_tasks(PARTICIPANT, END, False)])
+                              command=lambda: [modal.destroy(), run_tasks(PARTICIPANT, END, False)])
+                            #   command=lambda: [modal.destroy, set_autocomplete_status(False)])
         modal_button.pack(pady=20)
-        label = Label(modal, text="No additional permissions required.")
+        label = Label(modal, text="No additional permissions required.", background="darkslategray")
         label.pack(padx=20, pady=20)
         modal.grab_set()  # Make the pop-up modal
-        modal.focus_force # Wait until the pop-up is closed
-        self.root.wait_window()
+        # modal.focus_force # Wait until the pop-up is closed
+        # self.root.wait_window()
+        # run_tasks(PARTICIPANT, END, autocomplete_status())
 
 def main():
     root = Tk()
     win_x = root.winfo_rootx()
     win_y = root.winfo_rooty()
     app = PelioDashboard(root, win_x, win_y)
-    if time.time() == TAKE_FIVE:
-        app.work_task()
+    # if time.time() == TAKE_FIVE:
+        # app.work_task()
+        # autocomplete_status
     # root.mainloop()
     if time.time() == END:
         messagebox.showinfo("Clocked Out", "It looks like your work day is finished. Goodbye!")
