@@ -10,7 +10,7 @@
                     <a @click.prevent="center = 'PlayerSettings'" :class="center == 'PlayerSettings' ? 'simple-to' : 'navigation-to'" href="">Settings</a>
                     <a @click.prevent="center = 'GameMode'" :class="center == 'GameMode' ? 'simple-to' : 'navigation-to'" href="">Game Mode</a>
                     <a @click.prevent="center = 'PlayerScore'" :class="center == 'PlayerScore' ? 'simple-to' : 'navigation-to'" href="">Stats</a>
-                    <a @click.prevent="center = 'GameStore'" :class="center == 'GameStore' ? 'simple-to' : 'navigation-to'" href="">Shop</a>
+                    <!-- <a @click.prevent="center = 'GameStore'" :class="center == 'GameStore' ? 'simple-to' : 'navigation-to'" href="">Shop</a> -->
                     <a @click.prevent="center = 'PlayerInventory'" :class="center == 'PlayerInventory' ? 'simple-to' : 'navigation-to'" href="">Inventory</a>
                     <a @click.prevent="center = 'About'" :class="center == 'About' ? 'simple-to' : 'navigation-to'" href="">About</a>
                 </div>
@@ -57,7 +57,7 @@ import PlayerScore from '@/components/sidebar/PlayerScore.vue'
 import PlayerSettings from '@/components/sidebar/PlayerSettings.vue'
 import GameMode from '@/components/sidebar/GameMode.vue'
 import TrainingMode from '@/components/sidebar/TrainingMode.vue'
-import GameStore from '@/components/sidebar/GameStore.vue'
+<!-- import GameStore from '@/components/sidebar/GameStore.vue' -->
 import PlayerInventory from '@/components/sidebar/PlayerInventory.vue'
 import EquipItems from '@/components/sidebar/EquipItems.vue'
 import About from '@/components/sidebar/About.vue'
@@ -83,7 +83,6 @@ export default {
     PlayerSettings,
     GameMode,
     TrainingMode,
-    GameStore,
     PlayerInventory,
     EquipItems,
     simplebar,
