@@ -1,7 +1,7 @@
 <template>
   <div oncontextmenu="return false;" id="app">
     <div class="background">
-      <img fetchpriority="high" src="./assets/backgrounds/bg2.jpg" class="backgroundimg blur">
+      <img fetchpriority="high" src="./assets/backgrounds/bg-hero.webp" class="backgroundimg blur">
       <img fetchpriority="low" :src="image" class="backgroundimg">
     </div>
     <Skillcheck/>

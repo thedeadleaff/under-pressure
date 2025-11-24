@@ -20,7 +20,7 @@ DBD_DIR = Path("DBD")
 
 SD2_FITTS = "*.sd2" 
 SD2_TYPE = "*.sd2"
-DBD_URL = "http://localhost:8080"
+DBD_URL = "http://localhost:8081"
 
 def run_fitts(participant_id, task_index, fittsT): 
 
@@ -141,24 +141,27 @@ def write_typing_cfg(participant_code="P01",
     return cfg_path
 
 def start_dbd_server():
-
+    subprocess.run(["npx", "cross-env"], cwd=DBD_DIR)
     proc = subprocess.Popen(
-        ["npm.cmd", "run", "serve"], 
-        cwd=DBD_DIR,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL
+        ["npm", "run", "serve"], 
+        cwd=DBD_DIR
+        # ,
+        # stdout=subprocess.DEVNULL,
+        # stderr=subprocess.DEVNULL
     )
-    time.sleep(5)
-    return proc
+    webbrowser.open_new(DBD_URL)
+    # subprocess.Popen.wait(proc)
+    # time.sleep(5)
+    # return proc
 
 def run_dbd(participant_id, task_index):
-
     # Open browser
-    webbrowser.open_new(DBD_URL)
+    # webbrowser.open_new(DBD_URL)
 
     start_time = datetime.now().isoformat()
     input("Press ENTER here when they are finished... ")
     end_time = datetime.now().isoformat()
+    subprocess.run(["SIGINT"], cwd=DBD_DIR)
     return {
         "task_type": "dbd_skillcheck",
         "task_index": task_index,
@@ -172,7 +175,7 @@ def run_dbd(participant_id, task_index):
 # Right now, its all on console but we can link it to the GUI
 def run_tasks(id, end_time, auto, permissions):
     # Participant ID (1-12 or something)
-    start_dbd_server()
+    # start_dbd_server()
     participant_id = id
     if not participant_id:
         print("No ID, aborting.")
@@ -293,6 +296,8 @@ def work_tasks(writer, tasks, f, participant_id, auto, end, task_num, autocomple
             elif t == "fittsC":
                 record = run_fitts(participant_id, task_num, "C")
             elif t == "dbd":
+                # Trying to start the server only at the time where DBD is the associated task
+                start_dbd_server()
                 record = run_dbd(participant_id, task_num)
             else:
                 raise ValueError(f"Unknown task {t}")
