@@ -20,7 +20,7 @@ DBD_DIR = Path("DBD")
 
 SD2_FITTS = "*.sd2" 
 SD2_TYPE = "*.sd2"
-DBD_URL = "http://localhost:8081"
+DBD_URL = "http://localhost:8080"
 
 def run_fitts(participant_id, task_index, fittsT): 
 
@@ -161,7 +161,6 @@ def run_dbd(participant_id, task_index):
     start_time = datetime.now().isoformat()
     input("Press ENTER here when they are finished... ")
     end_time = datetime.now().isoformat()
-    subprocess.run(["SIGINT"], cwd=DBD_DIR)
     return {
         "task_type": "dbd_skillcheck",
         "task_index": task_index,
@@ -182,7 +181,7 @@ def run_tasks(id, end_time, auto, permissions):
         return
 
     # If we want to add more then we can
-    tasks = ["type", "fittsR", "fittsC", "dbd"]
+    tasks = ["type", "fittsR", "fittsC"] #, "dbd" - Removing DBD to avoid tedious debugging
     task_num = 1
 
     # Create csv file for data gathering
